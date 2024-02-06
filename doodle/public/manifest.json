@@ -9,8 +9,8 @@
   },
   "permissions": ["scripting"],
   "icons": {
-    "16": "puzzle.png",
-    "48": "puzzle.png",
-    "128": "puzzle.png"
+    "16": "doodle-logo.png",
+    "48": "doodle-logo.png",
+    "128": "doodle-logo.png"
   }
 }

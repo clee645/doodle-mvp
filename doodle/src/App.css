@@ -3,18 +3,32 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 70vmin;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+} */
+.start-capture-button {
+  background-color: #007bff; /* Blue background color for the button */
+  color: white; /* White text color for the button */
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.start-capture-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #ffffff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
