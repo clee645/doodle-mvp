@@ -1,0 +1,22 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  transition: margin-left 0.5s;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+.start-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 9999;
+}
+
+.sidebar-visible {
+  margin-left: 200px;
+}

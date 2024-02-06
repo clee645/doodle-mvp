@@ -1,0 +1,11 @@
+{
+    "manifest_version": 2,
+    "name": "Resize Extension",
+    "version": "1.0",
+    "description": "A simple extension to resize the window with a sidebar.",
+    "browser_action": {
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+    },
+    "permissions": ["activeTab"]
+  }
