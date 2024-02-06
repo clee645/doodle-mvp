@@ -7,7 +7,7 @@
     "default_popup": "index.html",
     "default_title": "Open"
   },
-  "permissions": ["scripting"],
+  "permissions": ["scripting", "activeTab", "tabs"],
   "icons": {
     "16": "doodle-logo.png",
     "48": "doodle-logo.png",
