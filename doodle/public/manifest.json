@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Doodle",
+  "description": "(description for doodle)",
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Open"
+  },
+  "permissions": ["scripting"],
+  "icons": {
+    "16": "puzzle.png",
+    "48": "puzzle.png",
+    "128": "puzzle.png"
+  }
+}
