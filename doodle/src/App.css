@@ -13,7 +13,7 @@
   }
 } */
 .start-capture-button {
-  background-color: #007bff; /* Blue background color for the button */
+  background-color: #0899ff; /* Blue background color for the button */
   color: white; /* White text color for the button */
   padding: 10px 20px; /* Adjust padding as needed */
   font-size: 1em;
@@ -24,7 +24,7 @@
 }
 
 .start-capture-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0c7ccd; /* Darker blue on hover */
 }
 
 .App-header {
