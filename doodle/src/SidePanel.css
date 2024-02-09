@@ -1,0 +1,23 @@
+.side-panel {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Adjust width as needed */
+    width: 300px; /* Adjust width as needed */
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: left 0.3s ease;
+  }
+  
+  .side-panel.open {
+    left: 0;
+  }
+  
+  .content {
+    padding: 20px;
+  }
+  
+  button {
+    margin-top: 20px;
+  }
+  

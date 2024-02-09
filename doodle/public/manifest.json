@@ -7,7 +7,10 @@
     "default_popup": "index.html",
     "default_title": "Open"
   },
-  "permissions": ["scripting", "activeTab", "tabs"],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "permissions": ["scripting", "activeTab", "tabs", "sidePanel"],
   "icons": {
     "16": "doodle-logo.png",
     "48": "doodle-logo.png",

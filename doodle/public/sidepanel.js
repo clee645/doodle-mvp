@@ -1,7 +1,7 @@
 /*global chrome*/
 import React, { useState } from 'react';
 import logo from "./doodle-title.png";
-import "./App.css";
+import "doodle/src/App.css";
 
 function App() {
   const handleStartCapture = () => {
