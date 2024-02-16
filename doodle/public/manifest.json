@@ -15,5 +15,8 @@
     "16": "doodle-logo.png",
     "48": "doodle-logo.png",
     "128": "doodle-logo.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   }
 }

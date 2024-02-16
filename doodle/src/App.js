@@ -16,18 +16,21 @@ function App() {
   }, [currentUrl]);
 
   const handleStartCapture = () => {
-    // alert("Capture started!");
     // chrome.tabs.captureVisibleTab({ format: "png" }, function (screenshotUrl) {
     //   const link = document.createElement("a");
     //   link.href = screenshotUrl;
     //   link.download = "screenshot.png";
     //   link.click();
     // });
-    // Get the current URL when the button is clicked
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      setCurrentUrl(tabs[0].url);
-    });
 
+    // Use chrome.tabs instead of just tabs
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      setCurrentUrl(tabs[0].url);
+      const tabId = tabs[0].id;
+      const windowId = tabs[0].windowId;
+      chrome.runtime.sendMessage({ action: 'openSidePanel', tabId, windowId });
+    });
+    
     // Hide the app logo and the "Start Capture" button
     setCaptureStarted(true);
   };
