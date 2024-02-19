@@ -1,31 +1,10 @@
 /*global chrome*/
-import React, { useState } from 'react';
-import logo from "./doodle-title.png";
-import "doodle/src/App.css";
 
-function App() {
-  const handleStartCapture = () => {
-    // Add your logic for starting the capture
-    alert("Capture started!");
-    chrome.tabs.captureVisibleTab({ format: "png" }, function (screenshotUrl) {
-      const link = document.createElement("a");
-      link.href = screenshotUrl;
-      link.download = "screenshot.png";
-      link.click();
-    });
-  };
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {/* <h1 className="App-title">Doodle</h1> */}
-        <button onClick={handleStartCapture} className="start-capture-button">
-          Start Capture
-        </button>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+// Retrieve the screenshot URL from the background script
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message.action === 'displayScreenshot') {
+    console.log('received display screenshot');
+    var screenshotUrl = message.screenshotUrl;
+    document.getElementById('screenshotContainer').innerHTML = `<img src="${screenshotUrl}" alt="Screenshot" />`;
+  }
+});

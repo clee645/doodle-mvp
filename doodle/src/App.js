@@ -23,13 +23,22 @@ function App() {
     //   link.click();
     // });
 
+
     // Use chrome.tabs instead of just tabs
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      console.log('opened side panel')
       setCurrentUrl(tabs[0].url);
       const tabId = tabs[0].id;
       const windowId = tabs[0].windowId;
       chrome.runtime.sendMessage({ action: 'openSidePanel', tabId, windowId });
     });
+
+    chrome.tabs.captureVisibleTab({ format: "png" }, function (screenshotUrl) {
+      console.log('App.js sending message with screenshot')
+      chrome.runtime.sendMessage({ action: 'displayScreenshot', screenshotUrl});
+    });
+
+    
     
     // Hide the app logo and the "Start Capture" button
     setCaptureStarted(true);
