@@ -16,13 +16,6 @@ function App() {
   }, [currentUrl]);
 
   const handleStartCapture = () => {
-    // chrome.tabs.captureVisibleTab({ format: "png" }, function (screenshotUrl) {
-    //   const link = document.createElement("a");
-    //   link.href = screenshotUrl;
-    //   link.download = "screenshot.png";
-    //   link.click();
-    // });
-
 
     // Use chrome.tabs instead of just tabs
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -33,12 +26,7 @@ function App() {
       chrome.runtime.sendMessage({ action: 'openSidePanel', tabId, windowId });
     });
 
-    chrome.tabs.captureVisibleTab({ format: "png" }, function (screenshotUrl) {
-      console.log('App.js sending message with screenshot')
-      chrome.runtime.sendMessage({ action: 'displayScreenshot', screenshotUrl});
-    });
-
-    
+    chrome.runtime.sendMessage({ action: 'startListeningForTabUpdates' });
     
     // Hide the app logo and the "Start Capture" button
     setCaptureStarted(true);
