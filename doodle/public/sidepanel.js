@@ -38,28 +38,16 @@ const extractDomain = (url) => {
   }
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-  const startCaptureButton = document.getElementById('startCapture');
-  const stopCaptureButton = document.getElementById('stopCapture');
-  const restartCaptureButton = document.getElementById('restartCapture');
-
-  startCaptureButton.addEventListener('click', handleStartCapture);
-  stopCaptureButton.addEventListener('click', handleStopCapture);
-  restartCaptureButton.addEventListener('click', handleRestartCapture);
-
-  function handleStartCapture() {
-    chrome.runtime.sendMessage({ action: 'startCapture' });
-  }
-
-  function handleStopCapture() {
-    chrome.runtime.sendMessage({ action: 'stopCapture' });
-  }
-
-  function handleRestartCapture() {
-    chrome.runtime.sendMessage({ action: 'restartCapture' });
-  }
-});
-
 document.getElementById('stopCapture').addEventListener('click', function() {
   document.getElementById('message').textContent = 'Capture stopped';
 });
+
+document.getElementById('restartCapture').addEventListener('click', function() {
+  console.log("successfully restarted capture");
+  document.getElementById('screenshotContainer').innerHTML = null;
+});
+
+document.getElementById('pauseCapture').addEventListener('click', function() {
+  chrome.runtime.sendMessage({ action: 'pauseCapture' });
+});
+

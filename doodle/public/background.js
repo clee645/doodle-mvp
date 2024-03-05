@@ -16,6 +16,16 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         isListeningForTabUpdates = true;
         listenForTabUpdates();
     }
+
+    if (message.action === 'pauseCapture') {
+        if(isListeningForTabUpdates){
+            console.log("background.js capture has been paused")
+            isListeningForTabUpdates = false;
+        } else {
+            console.log("background.js capture has been resumed")
+            isListeningForTabUpdates = true;
+        }
+    }
 }); 
 
 function listenForTabUpdates() {
