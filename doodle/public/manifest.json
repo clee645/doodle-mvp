@@ -10,7 +10,7 @@
   "side_panel": {
     "default_path": "sidepanel.html"
   },
-  "permissions": ["scripting", "activeTab", "tabs", "sidePanel"],
+  "permissions": ["scripting", "activeTab", "tabs", "sidePanel", "all_urls"],
   "icons": {
     "16": "doodle-logo.png",
     "48": "doodle-logo.png",

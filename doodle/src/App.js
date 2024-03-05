@@ -15,22 +15,33 @@ function App() {
     }
   }, [currentUrl]);
 
-  const handleStartCapture = () => {
-
-    // Use chrome.tabs instead of just tabs
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      console.log('opened side panel')
+  const handleStartCapture = async () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
       setCurrentUrl(tabs[0].url);
       const tabId = tabs[0].id;
       const windowId = tabs[0].windowId;
+      
+      // Send messages to open the side panel and start listening for tab updates
       chrome.runtime.sendMessage({ action: 'openSidePanel', tabId, windowId });
+      chrome.runtime.sendMessage({ action: 'startListeningForTabUpdates' });
+  
+      try {
+        // Fetch website logo and URL
+        const domain = extractDomain(tabs[0].url);
+        const response = await axios.get(`https://logo.clearbit.com/${domain}`);
+        const websiteLogo = response.request.responseURL;
+  
+        // Send message to display website info in the side panel
+        chrome.runtime.sendMessage({ action: 'displayWebsiteInfo', websiteLogo, websiteUrl: tabs[0].url });
+  
+        // Close the extension immediately
+        window.close();
+      } catch (error) {
+        console.error('Error fetching logo:', error);
+      }
     });
-
-    chrome.runtime.sendMessage({ action: 'startListeningForTabUpdates' });
-    
-    // Hide the app logo and the "Start Capture" button
-    setCaptureStarted(true);
   };
+  
 
   // Function to extract the domain name from the URL
   const extractDomain = (url) => {
@@ -59,6 +70,11 @@ function App() {
       setWebsiteLogo("");
     }
   };
+
+  // send response to runtime
+  // on background js, receive the message and contain the response 
+  // send a message "sending app logo"
+  // from background send to sidepanel html 
 
   return (
     <div className="App">
