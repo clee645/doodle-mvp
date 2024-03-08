@@ -82,6 +82,7 @@ function App() {
         {!captureStarted && (
           <div>
             <img src={logo} className="App-logo" alt="logo" />
+            <p className="doodle">Doodle</p>
             <button onClick={handleStartCapture} className="start-capture-button">
               Start Capture
             </button>

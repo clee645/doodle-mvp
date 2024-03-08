@@ -1,10 +1,29 @@
 .App {
   text-align: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-logo {
-  height: 70vmin;
+  height: 30vmin;
   pointer-events: none;
+  display: relative;
+  right: 20px;
+  margin-bottom: 10px;
+}
+
+.doodle {
+  color: #19154E;
+  font-family: "Manrope", sans-serif;
+  /* font-optical-sizing: auto; */
+  font-weight: 800;
+  font-style: normal;
+  font-size: 30px;
+  padding: none;
+  margin-bottom: 20px; /* Decreased margin between the two code blocks */
+  margin-top: 0px;
 }
 
 /* @media (prefers-reduced-motion: no-preference) {
@@ -13,7 +32,7 @@
   }
 } */
 .start-capture-button {
-  background-color: #0899ff; /* Blue background color for the button */
+  background-color: #7421FC; /* Blue background color for the button */
   color: white; /* White text color for the button */
   padding: 10px 20px; /* Adjust padding as needed */
   font-size: 1em;
@@ -21,6 +40,10 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth transition for background color */
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
 }
 
 .start-capture-button:hover {
@@ -55,3 +78,4 @@
   color: #333;
   margin-top: 20px;
 }
+
