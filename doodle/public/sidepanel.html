@@ -2,20 +2,26 @@
 <html>
 <head>
   <title>My Sidepanel</title>
-  <link rel="stylesheet" href="sidepanel.css">
+  <link rel="stylesheet" href="sidepanel.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
   <h1>Starting capture for:</h1>
   <div id="logoContainer"></div>
-  <div id="urlContainer"></div>
+  <div class="url" id="urlContainer"></div>
   <div id="screenshotContainer"></div>
   <div id="buttons">
-    <button id="stopCapture">Stop Capture</button>
-    <p id="message"></p>
-    <button id="restartCapture">Restart Capture</button>
-    <p id="message"></p>
-    <button id="pauseCapture">Pause Capture</button>
+    <button id="stopCapture">
+      <img src="stop-icon.png" alt="Stop Capture">
+    </button>
+    <button id="restartCapture">
+      <img src="restart-icon.png" alt="Restart Capture">
+    </button>
+    <!-- <p id="message"></p> -->
+    <button id="pauseCapture">
+      <img src="pause-icon.png" alt="Pause Capture">
+    </button>
   </div>
+  <p id="message"></p>
   <script src="sidepanel.js"></script>
 </body>
 </html>

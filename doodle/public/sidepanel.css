@@ -1,23 +1,92 @@
-#logoContainer, #urlContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 20px; /* Add some space between containers */
-  }
-  
-  /* Center the h1 element */
-h1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+#logoContainer,
+#urlContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px; /* Add some space between containers */
 }
 
-#urlContainer{
-    font-size: 20px;
+/* Center the h1 element */
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Manrope", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: 30px;
+  color: #19154e;
+}
+
+#urlContainer {
+  font-size: 20px;
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  color: #5b5e76;
 }
 
 #logoContainer img {
-    width: 70px; /* Adjust the width as needed */
-    height: auto; /* Maintain aspect ratio */
-  }
+  width: 70px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+}
+
+#buttons img {
+  display: inline-block;
+  margin-right: 10px; /* Add margin between images */
+}
+
+#stopCapture, #restartCapture, #pauseCapture {
+  background: none; /* Remove the default button background */
+  border: none; /* Remove the default button border */
+  padding: 0; /* Remove padding */
+  position: relative; /* Set the position of the button container to relative */
+}
+
+#stopCapture img, #pauseCapture img, #restartCapture img{
+  width: 40px; /* Set the width of the image */
+  height: 40px; /* Set the height of the image */
+}
+
+#stopCapture img:hover, #pauseCapture img:hover, #restartCapture img:hover{
+  cursor: pointer; /* Change cursor on hover */
+}
+
+#stopCapture:hover::after, #pauseCapture:hover::after, #restartCapture:hover::after{
+  position: absolute; /* Set the position of the message */
+  top: -20px; /* Adjust the distance from the button */
+  left: calc(50% + 30px); /* Position the message slightly to the right of the button */
+  transform: translateX(-50%); /* Center the message horizontally */
+  background-color: #676464; /* Background color of the message */
+  color: #fff; /* Text color of the message */
+  padding: 5px 10px; /* Padding around the message */
+  border-radius: 5px; /* Rounded corners for the message */
+  font-size: 14px; /* Font size of the message */
+  white-space: nowrap; /* Prevent wrapping of the message */
+}
+
+#stopCapture:hover::after {
+  content: "Stop Capture"; /* Set the content of the message */
+}
+
+#pauseCapture:hover::after {
+  content: "Pause Capture"; /* Set the content of the message */
+}
+
+#restartCapture:hover::after {
+  content: "Restart Capture"; /* Set the content of the message */
+}
+
+#buttons {
+  display: flex; /* Use flexbox to make the buttons display side by side */
+  justify-content: center; /* Center the buttons horizontally */
+  align-items: center; /* Center the buttons vertically */
+}
+
+#buttons button {
+  margin: 0 5px; /* Add some margin around the buttons */
+  margin-top: 60px;
+}

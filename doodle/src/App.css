@@ -7,17 +7,18 @@
 }
 
 .App-logo {
-  height: 30vmin;
+  height: 29vmin;
   pointer-events: none;
   display: relative;
   right: 20px;
   margin-bottom: 10px;
 }
 
+
+
 .doodle {
   color: #19154E;
   font-family: "Manrope", sans-serif;
-  /* font-optical-sizing: auto; */
   font-weight: 800;
   font-style: normal;
   font-size: 30px;
@@ -47,7 +48,7 @@
 }
 
 .start-capture-button:hover {
-  background-color: #0c7ccd; /* Darker blue on hover */
+  background-color: #551ead; /* Darker blue on hover */
 }
 
 .App-header {
