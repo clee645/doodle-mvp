@@ -1,4 +1,3 @@
-
 #logoContainer,
 #urlContainer {
   display: flex;
@@ -39,26 +38,36 @@ h1 {
   margin-right: 10px; /* Add margin between images */
 }
 
-#stopCapture, #restartCapture, #pauseCapture {
+#stopCapture,
+#restartCapture,
+#pauseCapture {
   background: none; /* Remove the default button background */
   border: none; /* Remove the default button border */
   padding: 0; /* Remove padding */
   position: relative; /* Set the position of the button container to relative */
 }
 
-#stopCapture img, #pauseCapture img, #restartCapture img{
+#stopCapture img,
+#pauseCapture img,
+#restartCapture img {
   width: 40px; /* Set the width of the image */
   height: 40px; /* Set the height of the image */
 }
 
-#stopCapture img:hover, #pauseCapture img:hover, #restartCapture img:hover{
+#stopCapture img:hover,
+#pauseCapture img:hover,
+#restartCapture img:hover {
   cursor: pointer; /* Change cursor on hover */
 }
 
-#stopCapture:hover::after, #pauseCapture:hover::after, #restartCapture:hover::after{
+#stopCapture:hover::after,
+#pauseCapture:hover::after,
+#restartCapture:hover::after {
   position: absolute; /* Set the position of the message */
   top: -20px; /* Adjust the distance from the button */
-  left: calc(50% + 30px); /* Position the message slightly to the right of the button */
+  left: calc(
+    50% + 30px
+  ); /* Position the message slightly to the right of the button */
   transform: translateX(-50%); /* Center the message horizontally */
   background-color: #676464; /* Background color of the message */
   color: #fff; /* Text color of the message */
@@ -69,7 +78,7 @@ h1 {
 }
 
 #stopCapture:hover::after {
-  content: "Stop Capture"; /* Set the content of the message */
+  content: "Complete Capture"; /* Set the content of the message */
 }
 
 #pauseCapture:hover::after {
