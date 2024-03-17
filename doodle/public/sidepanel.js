@@ -128,6 +128,3 @@ document.getElementById('pauseCapture').addEventListener('click', function() {
 //     return "";
 //   }
 // };
-
-
-
