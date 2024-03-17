@@ -44,16 +44,45 @@ function drawOnImage(dataUrl, rect, callback) {
 }
 
 function displayImage(imageUrl) {
-  const imgElement = `<img src="${imageUrl}" alt="Screenshot with Highlight" style="max-width: 100%; height: auto; display: block; margin-top: 10px;" />`;
-  console.log("Displaying processed screenshot");
-  // Ensuring the container for the image exists and is cleared before adding new content
-  var container = document.getElementById('screenshotContainer');
-  if (container) {
-    container.innerHTML += imgElement;
-  } else {
-    console.log("Error: screenshotContainer element not found.");
-  }
+  // First, get a presigned URL for uploading
+  fetch('http://localhost:5000/generate-presigned-url')
+    .then(response => response.json())
+    .then(data => {
+      const presignedUrl = data.url;
+      return fetch(presignedUrl, {
+        method: 'PUT',
+        body: fetch(imageUrl).then(res => res.blob()), // Convert the imageURL to a blob
+        headers: {
+          'Content-Type': 'image/png'
+        },
+      });
+    })
+    .then(uploadResponse => {
+      if (uploadResponse.ok) {
+        console.log('Image successfully uploaded to S3');
+        const s3ImageUrl = presignedUrl.split('?')[0]; // Remove query parameters from presigned URL to get the S3 object URL
+        // Now call your Flask API with the S3 URL
+        fetch('http://localhost:5000/generate-description', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ imageUrl: s3ImageUrl }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          const description = data.description;
+          console.log(description);
+          // Display the image and description in the container
+        })
+        .catch(err => console.error('Error calling API:', err));
+      } else {
+        console.error('Failed to upload image to S3');
+      }
+    })
+    .catch(err => console.error('Error fetching presigned URL:', err));
 }
+
 
 document.getElementById('stopCapture').addEventListener('click', function() {
   document.getElementById('message').textContent = 'Capture stopped';
