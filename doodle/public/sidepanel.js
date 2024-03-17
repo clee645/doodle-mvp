@@ -25,12 +25,18 @@ function drawOnImage(dataUrl, rect, callback) {
     var canvas = document.createElement('canvas');
     canvas.width = img.width;
     canvas.height = img.height;
+    console.log(canvas.width);
+    console.log(canvas.height);
     var ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
     // Draw the red box
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 5;
     // Adjusting rect positions based on potential scrolling and image scaling
+    console.log(rect.x);
+    console.log(rect.y);
+    console.log(rect.width);
+    console.log(rect.height);
     ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
     callback(canvas.toDataURL('image/png'));
   };
