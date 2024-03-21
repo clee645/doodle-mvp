@@ -1,5 +1,8 @@
 /*global chrome*/
 
+require('dotenv').config(); // Load environment variables from .env file
+const fetch = require('node-fetch');
+
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === "displayScreenshot") {
     // If the message includes elementPosition, process the image to draw a red box
@@ -45,7 +48,7 @@ function drawOnImage(dataUrl, rect, callback) {
 
 function displayImage(imageUrl) {
   // Replace this with your actual ImgBB API key
-  const imgbbAPIKey = apikey;
+  const imgbbAPIKey = process.env.IMGBB_API_KEY;
 
   // Convert the image URL to a Blob and then to FormData
   fetch(imageUrl).then(res => res.blob()).then(blob => {
