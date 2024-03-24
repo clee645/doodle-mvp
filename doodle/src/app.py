@@ -12,6 +12,7 @@ CORS(app)  # This is needed to allow cross-origin requests from your extension
 load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key = openai_api_key)
+#client = OpenAI(api_key ="")
 
 def generate_description(image_url):
     try:

@@ -57,8 +57,8 @@ function getBoundingRect(element) {
     rect.height = (rect.bottom - rect.top) * 2;
 
     // Adjusting for scroll to get accurate position relative to document
-    rect.x = (rect.left + window.scrollX)*2;
-    rect.y = (rect.top + window.scrollY)*2;
+    rect.x = (rect.left + window.scrollX)*2.1;
+    rect.y = (rect.top + window.scrollY)*2.1;
     
     return rect;
 }

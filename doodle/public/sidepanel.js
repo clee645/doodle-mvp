@@ -32,23 +32,32 @@ function drawOnImage(dataUrl, rect, callback) {
     console.log(canvas.height);
     var ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    // Draw the red box
-    ctx.strokeStyle = 'red';
-    ctx.lineWidth = 5;
-    // Adjusting rect positions based on potential scrolling and image scaling
-    console.log(rect.x);
-    console.log(rect.y);
-    console.log(rect.width);
-    console.log(rect.height);
-    ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
+    // Set the fill color to #7801FD with opacity
+    ctx.fillStyle = 'rgba(120, 1, 253, 0.3)';
+
+    // Calculate the center of the circle
+    var centerX = rect.x + rect.width / 2;
+    var centerY = rect.y + rect.height / 2;
+    
+    // Increase the size of the radius. You can adjust this value as needed
+    var radius = Math.max(rect.width, rect.height)/4; // Example of making the radius larger
+    console.log(radius)
+
+    ctx.beginPath(); // Start a new path
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI); // Create a circle
+    ctx.fill(); // Fill the circle with the set style
+
     callback(canvas.toDataURL('image/png'));
   };
   img.src = dataUrl;
 }
 
+
+
 function displayImage(imageUrl) {
   // Replace this with your actual ImgBB API key
   const imgbbAPIKey = process.env.IMGBB_API_KEY;
+
 
   // Convert the image URL to a Blob and then to FormData
   fetch(imageUrl).then(res => res.blob()).then(blob => {
@@ -114,34 +123,3 @@ document.getElementById('pauseCapture').addEventListener('click', function() {
   chrome.runtime.sendMessage({ action: 'pauseCapture' });
 });
 
-
-
-
-// /*global chrome*/
-
-// chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-//   if (message.action === 'displayWebsiteInfo') {
-//     const websiteLogo = message.websiteLogo;
-//     const websiteUrl = message.websiteUrl;
-
-//     // Extract domain name without "www." prefix
-//     const domain = extractDomain(websiteUrl);
-
-//     // Display the website logo
-//     document.getElementById('logoContainer').innerHTML = `<img src="${websiteLogo}" alt="Website Logo" style="max-width: 100%; height: auto; display: block; margin-top: 10px;" />`;
-
-//     // Display the domain name
-//     document.getElementById('urlContainer').textContent = domain;
-//   }
-// });
-
-// // Function to extract the domain name from the URL
-// const extractDomain = (url) => {
-//   try {
-//     const domain = new URL(url).hostname;
-//     return domain.replace("www.", "");
-//   } catch (error) {
-//     console.error('Error extracting domain:', error);
-//     return "";
-//   }
-// };
