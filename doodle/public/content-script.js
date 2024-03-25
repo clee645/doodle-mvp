@@ -4,26 +4,44 @@ document.addEventListener('click', function(event) {
     console.log("content script is working");
     const target = event.target; // The clicked element
     pollForDimensionChanges(target);
-    //event.preventDefault(); // Consider removing or modifying this based on your needs
+    const elementType = target.tagName.toLowerCase(); // Get the type of the element
+    let elementName = target.innerText || target.value || ""; // Get inner text or value
+    elementName = elementName.trim().substring(0, 50); // Truncate to first 50 chars to keep message size manageable
+    console.log(elementName);
+    console.log(elementType);
 }, true);
 
 function pollForDimensionChanges(element) {
+    let elementType = element.tagName.toLowerCase(); // Get the type of the element
+    let elementName = element.innerText || element.value || ""; // Get inner text or value
+    elementName = elementName.trim().substring(0, 50); // Truncate to keep manageable
+
     let prevDimensions = JSON.stringify(getBoundingRect(element));
     const start = Date.now();
     const handle = setInterval(() => {
         let currentDimensions = JSON.stringify(getBoundingRect(element));
         if (currentDimensions === prevDimensions) {
             clearInterval(handle);
-            console.log(
-                `Dimensions stabilized in ${Date.now() - start}ms. Final dimensions:`,
-                JSON.parse(currentDimensions)
-            );
-            sendElementPositionToBackground(JSON.parse(currentDimensions));
+            console.log(`Dimensions stabilized in ${Date.now() - start}ms. Final dimensions:`, JSON.parse(currentDimensions));
+            console.log(elementName);
+            console.log(elementType);
+            // Combined message with dimensions, type, and name
+            chrome.runtime.sendMessage({
+                action: 'captureElement',
+                elementPosition: JSON.parse(currentDimensions),
+                elementInfo: { elementType, elementName } // Include elementType and elementName
+            }, function(response) {
+                if (chrome.runtime.lastError) {
+                    console.log("Error sending message:", chrome.runtime.lastError);
+                }
+            });
+            console.log("content script sent combined message");
         } else {
             prevDimensions = currentDimensions;
         }
     }, 100); // Polling interval in milliseconds
 }
+
 
 function getBoundingRect(element) {
     var style = window.getComputedStyle(element);
@@ -63,16 +81,4 @@ function getBoundingRect(element) {
     return rect;
 }
 
-function sendElementPositionToBackground(dimensions) {
-    chrome.runtime.sendMessage({
-        action: 'captureElement',
-        elementPosition: dimensions // Directly use the adjusted dimensions which now include x and y
-    }, function(response) {
-        if (chrome.runtime.lastError) {
-            console.log("Error sending message:", chrome.runtime.lastError);
-            // Handle the error or retry sending the message as appropriate
-        }
-    });
-    console.log("content script sent message");
-}
 

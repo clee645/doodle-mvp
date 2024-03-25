@@ -1,19 +1,12 @@
 /*global chrome*/
 import React, { useState, useEffect } from 'react';
 import logo from "./doodle-title.png";
-import axios from 'axios';
 import "./App.css";
 
 function App() {
   const [currentUrl, setCurrentUrl] = useState("");
   const [websiteLogo, setWebsiteLogo] = useState("");
   const [captureStarted, setCaptureStarted] = useState(false);
-
-  // useEffect(() => {
-  //   if (currentUrl) {
-  //     fetchWebsiteLogo();
-  //   }
-  // }, [currentUrl]);
 
   const handleStartCapture = async () => {
     chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
@@ -24,6 +17,7 @@ function App() {
       // Send messages to open the side panel and start listening for tab updates
       chrome.runtime.sendMessage({ action: 'openSidePanel', tabId, windowId });
       chrome.runtime.sendMessage({ action: 'startListeningForTabUpdates' });
+      //chrome.runtime.sendMessage({ action: 'startCapture' });
 
       window.close()
     });
@@ -49,7 +43,6 @@ function App() {
             ) : (
               <p className="logo-placeholder">Logo not found</p>
             )}
-            {/* <p className="url">{extractDomain(currentUrl)}</p> */}
           </div>
         )}
       </header>

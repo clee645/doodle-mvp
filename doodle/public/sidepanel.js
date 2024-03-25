@@ -1,29 +1,27 @@
 /*global chrome*/
 
-require('dotenv').config(); // Load environment variables from .env file
-const fetch = require('node-fetch');
-
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === "displayScreenshot") {
     // If the message includes elementPosition, process the image to draw a red box
     console.log("received message to begin displaying screenshot");
     if (message.elementPosition) {
       console.log("modifying screenshot");
-      drawOnImage(message.screenshotUrl, message.elementPosition, (modifiedImageUrl) => {
-        displayImage(modifiedImageUrl);
+      drawOnImage(message.screenshotUrl, message.elementPosition, message.elementInfo, (modifiedImageUrl, elementInfo) => {
+        displayImage(modifiedImageUrl, elementInfo); // Now correctly receiving elementInfo
       });
       console.log("drew on screenshot");
     } else {
       // If no elementPosition is provided, display the image as is
       console.log("unmodified screenshot");
-      displayImage(message.screenshotUrl);
+      displayImage(message.screenshotUrl, message.elementInfo);
     }
   }
 });
 
-function drawOnImage(dataUrl, rect, callback) {
+function drawOnImage(dataUrl, rect, elementInfo, callback) {
   console.log("drawing on image");
   var img = new Image();
+  console.log(elementInfo);
   img.onload = function() {
     var canvas = document.createElement('canvas');
     canvas.width = img.width;
@@ -47,25 +45,19 @@ function drawOnImage(dataUrl, rect, callback) {
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI); // Create a circle
     ctx.fill(); // Fill the circle with the set style
 
-    callback(canvas.toDataURL('image/png'));
+    callback(canvas.toDataURL('image/png'), elementInfo);
   };
   img.src = dataUrl;
 }
 
+function displayImage(imageUrl, elementInfo) { // Include elementInfo parameter
+  const imgbbAPIKey = "77889e7b6f103cb674ca9df8be6d3567";
 
-
-function displayImage(imageUrl) {
-  // Replace this with your actual ImgBB API key
-  const imgbbAPIKey = process.env.IMGBB_API_KEY;
-
-
-  // Convert the image URL to a Blob and then to FormData
   fetch(imageUrl).then(res => res.blob()).then(blob => {
     let formData = new FormData();
     formData.append('image', blob);
     formData.append('key', imgbbAPIKey);
 
-    // Upload the image to ImgBB
     fetch(`https://api.imgbb.com/1/upload`, {
       method: 'POST',
       body: formData,
@@ -74,30 +66,29 @@ function displayImage(imageUrl) {
     .then(data => {
       if (data.status === 200) {
         console.log('Image successfully uploaded to ImgBB');
-        const imgbbImageUrl = data.data.url; // Get the URL of the uploaded image
+        const imgbbImageUrl = data.data.url; // URL of the uploaded image
 
-        // Now call your Flask API with the ImgBB image URL
+        // Use the elementInfo to call your Flask API for a description
         fetch('http://127.0.0.1:5000/generate-description', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ imageUrl: imgbbImageUrl }),
+          body: JSON.stringify({ imageUrl: imgbbImageUrl, elementInfo: elementInfo }), // Pass both image URL and element info
         })
         .then(response => response.json())
         .then(data => {
           const description = data.description;
           console.log(description);
-          // Display the image and description in the container
+          // Append the description to the screenshot container
           var container = document.getElementById('screenshotContainer');
           const imgElement = `<img src="${imageUrl}" alt="Screenshot with Highlight" style="max-width: 100%; height: auto; display: block; margin-top: 10px;" />`;
           if (container) {
             container.innerHTML += description;
             container.innerHTML += imgElement;
           } else {
-            console.log("Error: screenshotContainer element not found.");
+            console.error("Error: screenshotContainer element not found.");
           }
-
         })
         .catch(err => console.error('Error calling API:', err));
       } else {
@@ -107,7 +98,6 @@ function displayImage(imageUrl) {
     .catch(err => console.error('Error uploading image:', err));
   });
 }
-
 
 
 document.getElementById('stopCapture').addEventListener('click', function() {
