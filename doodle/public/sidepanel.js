@@ -1,4 +1,5 @@
 /*global chrome*/
+let screenshotsAndDescriptions = [];
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === "displayScreenshot") {
@@ -89,6 +90,12 @@ function displayImage(imageUrl, elementInfo) { // Include elementInfo parameter
           } else {
             console.error("Error: screenshotContainer element not found.");
           }
+          
+          screenshotsAndDescriptions.push({
+            screenshotUrl: imgbbImageUrl, // The URL from ImgBB
+            description: description
+          });
+
         })
         .catch(err => console.error('Error calling API:', err));
       } else {
@@ -99,14 +106,43 @@ function displayImage(imageUrl, elementInfo) { // Include elementInfo parameter
   });
 }
 
+function sendToNotion() {
+  // Extract screenshots and descriptions separately
+  const screenshots = screenshotsAndDescriptions.map(item => item.screenshotUrl);
+  const descriptions = screenshotsAndDescriptions.map(item => item.description);
+  
+  // Make the POST request to your Flask app
+  fetch('http://127.0.0.1:5000/create-notion-page', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ screenshots: screenshots, descriptions: descriptions })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Notion page created:', data.notion_page_url);
+
+    window.close(); 
+    
+    chrome.tabs.create({ url: data.notion_page_url });
+
+    // Clear screenshotsAndDescriptions or perform any other cleanup as needed
+    screenshotsAndDescriptions = [];
+  })
+  .catch(err => console.error('Error creating Notion page:', err));
+}
+
 
 document.getElementById('stopCapture').addEventListener('click', function() {
-  document.getElementById('message').textContent = 'Capture stopped';
+  //document.getElementById('message').textContent = 'Capture stopped';
+  sendToNotion();
 });
 
 document.getElementById('restartCapture').addEventListener('click', function() {
   console.log("successfully restarted capture");
   document.getElementById('screenshotContainer').innerHTML = '';
+  screenshotsAndDescriptions = [];
 });
 
 document.getElementById('pauseCapture').addEventListener('click', function() {
