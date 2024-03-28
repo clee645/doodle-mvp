@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from openai import OpenAI
 import os
@@ -11,13 +11,17 @@ app = Flask(__name__)
 CORS(app)  # This is needed to allow cross-origin requests from your extension
 
 load_dotenv()  # Load environment variables
-notion_token = os.getenv("NOTION_TOKEN")
-notion_page_id = os.getenv("NOTION_PAGE_ID")
-openai_api_key = os.getenv("OPENAI_API_KEY")
+notion_token = '' #os.getenv("NOTION_TOKEN")
+notion_page_id = '' #os.getenv("NOTION_PAGE_ID")
+openai_api_key = '' #os.getenv("OPENAI_API_KEY")
 
 # Initialize Notion and OpenAI clients
 notion_client = NotionClient(auth=notion_token)
 openai_client = OpenAI(api_key=openai_api_key)
+
+@app.route('/walkthrough')
+def walkthrough():
+    return render_template('walkthrough.html')
 
 def generate_title(screenshots, descriptions):
 
@@ -166,7 +170,7 @@ def create_notion_page():
     # Create a new Notion page and add the content
     new_notion_page_id = add_title(notion_client, notion_page_id, title)
 
-    link_page_id = "https://www.joindoodle.com/"
+    link_page_id = "http://127.0.0.1:5000/walkthrough" 
     write_clickable_text(notion_client, new_notion_page_id, "Walk me through (Click on me)", link_page_id)
 
     for description, screenshot in zip(descriptions, screenshots):
